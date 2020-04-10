@@ -10,8 +10,8 @@ public class CameraMovement : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
-        cam.transform.position = new Vector3(GenerateMesh.meshWidth / 2, GenerateMesh.meshMaxHeight + 10, GenerateMesh.meshLength / 2);
-        cam.transform.rotation = Quaternion.Euler(90, 0, 0);
+        cam.transform.position = new Vector3(Terrain.GenerateMesh.meshWidth, Terrain.GenerateMesh.meshMaxHeight + 25, Terrain.GenerateMesh.meshLength * 1.5f / 2);
+        cam.transform.rotation = Quaternion.Euler(60, 0, 0);
     }
 
     void Update()

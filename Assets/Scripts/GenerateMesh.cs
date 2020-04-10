@@ -6,10 +6,9 @@ using UnityEditor;
 public class GenerateMesh : MonoBehaviour
 {
     public static int meshWidth = 64, meshLength = 64;
-    public static int meshMaxHeight = 10;
-    public Shader shader;
-    public float heightScale = 30;
-    float noiseModifier = 1;
+    public static int meshMaxHeight = 3;
+    public Material matHeight0, matHeight1, matHeight2;
+    //public Shader shader;
     Mesh mesh;
     Vector3[] verts;
     GameObject[,] objects;
@@ -24,51 +23,6 @@ public class GenerateMesh : MonoBehaviour
         }
     }
 
-    private void GenerateHexPlane(int width, int length){
-        int[] indices = new int[width * length * 12];
-        verts = new Vector3[width * length * 6];
-
-        for(int i = 0, indicesCount = 0, vertCount = 0; i < width; i++){
-            for(int j = 0; j < length; j++, indicesCount += 12, vertCount += 6){
-                noiseModifier = Time.deltaTime;
-                verts[vertCount] = new Vector3(1 + (2 * i) + (j % 2), Mathf.PerlinNoise((float)i / width, (float)j / length) * heightScale, 0.5f + (1.5f * j)); //These aren't needed after the initial hex
-                verts[1 + vertCount] = new Vector3(1 + (2 * i) + (j % 2), Mathf.PerlinNoise((float)i / width, (float)j / length) * heightScale, -0.5f + (1.5f * j)); // ^
-                verts[2 + vertCount] = new Vector3((2 * i) + (j % 2), Mathf.PerlinNoise((float)i / width, (float)j / length) * heightScale, -1 + (1.5f * j));
-                verts[3 + vertCount] = new Vector3(-1 + (2 * i) + (j % 2), Mathf.PerlinNoise((float)i / width, (float)j / length) * heightScale, -0.5f + (1.5f * j));
-                verts[4 + vertCount] = new Vector3(-1 + (2 * i) + (j % 2), Mathf.PerlinNoise((float)i / width, (float)j / length) * heightScale, 0.5f + (1.5f * j));
-                verts[5 + vertCount] = new Vector3((2 * i) + (j % 2), Mathf.PerlinNoise((float)i / width, (float)j / length) * heightScale, 1 + (1.5f * j));
-
-                indices[indicesCount] = 5 + vertCount;
-                indices[1 + indicesCount] = vertCount;
-                indices[2 + indicesCount] = 1 + vertCount;
-
-                indices[3 + indicesCount] = 4 + vertCount;
-                indices[4 + indicesCount] = 5 + vertCount;
-                indices[5 + indicesCount] = 1 + vertCount;
-
-                indices[6 + indicesCount] = 4 + vertCount;
-                indices[7 + indicesCount] = 1 + vertCount;
-                indices[8 + indicesCount] = 2 + vertCount;
-
-                indices[9 + indicesCount] = 2 + vertCount;
-                indices[10 + indicesCount] = 3 + vertCount;
-                indices[11 + indicesCount] = 4 + vertCount;
-            }
-        }
-
-        
-
-
-        mesh = new Mesh();
-        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-        MeshRenderer renderer = gameObject.AddComponent<MeshRenderer>();
-        renderer.sharedMaterial = new Material(Shader.Find("Hex"));
-        MeshFilter filter = gameObject.AddComponent<MeshFilter>();
-        mesh.vertices = verts;
-        mesh.triangles = indices;
-        mesh.RecalculateNormals();
-        filter.mesh = mesh;
-    }
     private void GenerateHex(){
         const int amount = 1;
         int[] indices = new int[amount * 48];
@@ -295,8 +249,18 @@ public class GenerateMesh : MonoBehaviour
 
         mesh = new Mesh();
         MeshRenderer renderer = newObj.AddComponent<MeshRenderer>();
-        Material mat = new Material(shader);
-        mat.SetFloat("_Height", height);
+        Material mat;
+        if(height == 0){
+            mat = matHeight0;
+        }else if(height == 1){
+            mat = matHeight1;
+        }else if(height == 2){
+            mat = matHeight2;
+        }else{
+            mat = matHeight0;
+        }
+        // mat = new Material(shader);
+        // mat.SetFloat("_Height", height);
         renderer.sharedMaterial = mat;
         MeshFilter filter = newObj.AddComponent<MeshFilter>();
         

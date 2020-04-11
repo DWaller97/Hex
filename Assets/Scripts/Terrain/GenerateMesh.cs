@@ -147,13 +147,16 @@ namespace Terrain{
                     }
                     renderer.sharedMaterial = mat;
                     MeshFilter filter = newObj.AddComponent<MeshFilter>();
-                    
                     mesh.vertices = verts;
                     mesh.triangles = indices;
                     mesh.normals = normals;
                     filter.mesh = mesh;
-                    Hex newHex = new Hex(height, new Vector2(pos.x, pos.z));
-                    hexes.Add(new Vector2(i, j), newHex);
+                    MeshCollider col = newObj.AddComponent<MeshCollider>();
+
+                    Hex newHex = newObj.AddComponent<Hex>();
+                    Vector2 gridPos = new Vector2(i, j);
+                    newHex.Initialise(height, gridPos);
+                    hexes.Add(gridPos, newHex);
                 }
             }
         }

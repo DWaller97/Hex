@@ -5,9 +5,10 @@ using UnityEditor;
 namespace Terrain{
     public class GenerateMesh : MonoBehaviour
     {
+        HexSettings settings;
         public static int meshWidth = 64, meshLength = 64;
         public static int meshMaxHeight = 3;
-        public Material matHeight0, matHeight1, matHeight2;
+        public bool heightModeRandom;
         Dictionary<Vector2, Hex> hexes;
 
         public enum HeightMode{
@@ -18,7 +19,12 @@ namespace Terrain{
         HeightMode mode = HeightMode.RandomRange;
 
         private void Start() {
+            settings = HexSettings.GetHexSettings();
             hexes = new Dictionary<Vector2, Hex>();
+            if(heightModeRandom)
+                mode = HeightMode.RandomRange;
+            else
+                mode = HeightMode.Set;
             GeneratePillars(meshWidth, meshLength, Vector3.zero, mode);
         }
 
@@ -137,13 +143,13 @@ namespace Terrain{
                     MeshRenderer renderer = newObj.AddComponent<MeshRenderer>();
                     Material mat;
                     if(height == 0){
-                        mat = matHeight0;
+                        mat = settings.heightMat0;
                     }else if(height == 1){
-                        mat = matHeight1;
+                        mat = settings.heightMat1;
                     }else if(height == 2){
-                        mat = matHeight2;
+                        mat = settings.heightMat2;
                     }else{
-                        mat = matHeight0;
+                        mat = settings.heightMat0;
                     }
                     renderer.sharedMaterial = mat;
                     MeshFilter filter = newObj.AddComponent<MeshFilter>();

@@ -553,6 +553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 365175580}
   - component: {fileID: 365175579}
+  - component: {fileID: 365175581}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -572,9 +573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4405dd213426ce74182b6e5988b31bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matHeight0: {fileID: 2100000, guid: d694210b9c063fb4fb187f73abd343f7, type: 2}
-  matHeight1: {fileID: 2100000, guid: cced2b7655b0f404ab94d02ef740feb5, type: 2}
-  matHeight2: {fileID: 2100000, guid: 8a0410fd09e5eaf46b3cc68d0708348e, type: 2}
+  heightModeRandom: 0
 --- !u!4 &365175580
 Transform:
   m_ObjectHideFlags: 0
@@ -589,6 +588,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &365175581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 365175578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccb994c093c20b04285a51091b85cd25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heightMat0: {fileID: 2100000, guid: d694210b9c063fb4fb187f73abd343f7, type: 2}
+  heightMat1: {fileID: 2100000, guid: cced2b7655b0f404ab94d02ef740feb5, type: 2}
+  heightMat2: {fileID: 2100000, guid: 8a0410fd09e5eaf46b3cc68d0708348e, type: 2}
 --- !u!1 &687398249
 GameObject:
   m_ObjectHideFlags: 0
